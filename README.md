@@ -27,7 +27,11 @@ You can insert current field status content using the shortcode:
 
 The `fmt` parameter controls formatting:
 
-* **brian** will format the field status in a manner consistent with current formatting on the site.
+* `brian` will format the field status in a manner consistent with
+  current formatting on the site so that: `[field-status fmt="brian"]`
+  results in something like the following:
+
+
 ```html
 <div class= "f-wrap">
   <dl>Cardiff Elementary (Berkich)</dl>
@@ -42,7 +46,8 @@ The `fmt` parameter controls formatting:
 </div>
 ```
 
-* **ul** will format the field status as follows:
+* `ul` will format the field status using dl/ul nesting, so that:
+  `[field-status fmt="ul"]` results in something like the following:
 
 ```html
 <dl class= "f-wrap">
