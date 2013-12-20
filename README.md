@@ -49,7 +49,7 @@ The `fmt` parameter controls formatting:
 * `ul` will format the field status using dl/ul nesting, so that:
   `[field-status fmt="ul"]` results in something like the following:
 
-```html
+```HTML
 <dl class= "f-wrap">
   <dt>Cardiff Elementary (Berkich)</dt>
   <dd>
