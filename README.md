@@ -88,7 +88,7 @@ default formatting).  Fields recognized are:
 The shortcode
 
 ```
-[field-status field=berkich]
+[field-status field="berkich"]
 ```
 
 would output the following using the default formatting:
