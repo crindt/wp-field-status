@@ -1,12 +1,12 @@
 <?php
 /**
  * Plugin Name: Cardiff Soccer Field Status
- * Plugin URI: http://URI_Of_Page_Describing_Plugin_and_Updates
- * Description: A brief description of the Plugin.
- * Version: The Plugin's Version Number, e.g.: 1.0
- * Author: Name Of The Plugin Author
- * Author URI: http://URI_Of_The_Plugin_Author
- * License: A "Slug" license name e.g. GPL2
+ * Plugin URI: http://github.com/crindt/wp-field-status
+ * Description: Simple plugin to store Cardiff Soccer Field Status in wp config variables.
+ * Version: 0.1
+ * Author: Craig Rindt
+ * Author URI: http://github.com/crindt
+ * License: GPL2
  */
 
 add_action('admin_menu', 'field_status_admin_add_page');
@@ -14,24 +14,72 @@ function field_status_admin_add_page() {
     add_options_page('Cardiff Soccer Field Status Page', 'Cardiff Soccer Field Status Menu', 'manage_options', 'field_status', 'field_status_options_page');
 }
 
-//[foobar]
+function otag($t, $attr = array()) {
+    if ( $t == '' ) return '';
+    $attrs = '';
+    foreach( $attr as $attrn => $attrv ) {
+        $attrs = $attrs . ' ' . $attrn . '= "' . $attrv . '"';
+    }
+    return '<' . $t . $attrs.'>';
+}
+function ctag($t) {
+    if ( $t == '' ) return '';
+    return '</' . $t . '>';
+}
+
+function echo_status( $fdata, $fmt ) {
+    $ret = '';
+    $ret .= otag($fmt['ul']);
+    foreach( $fdata as $skey => $data ) {
+        $ret .= otag($fmt['li']).ucfirst($skey).': <span title="'.$data['comment'].'" class="'.strtolower($data['status']).'">'.$data['status'].'</span>'.ctag($fmt['li']);
+    }
+    $ret .= ctag($fmt['ul']);
+    return $ret;
+}
+
+//[field_status]
 function field_status_shortcode( $atts ){
     extract( shortcode_atts( array(
-        'foo' => 'something',
-        'bar' => 'something else',
+        'field' => '',
+        'fmt' => 'ul'
     ), $atts ) );
+
+    # set up list formatting per user request.  fmt=>brian uses <dt> tags.  otherwise, we go with <ul> 
+    $fmt = array();
+    switch( $atts['fmt'] ) {
+    case "brian":
+        $fmt['dl'] = 'div';
+        $fmt['dt'] = 'dl';
+        $fmt['dd'] = '';
+        $fmt['ul'] = '';
+        $fmt['li'] = 'dt';
+        break;
+    default:       // default to a ul
+        $fmt['dl'] = 'dl';
+        $fmt['dt'] = 'dt';
+        $fmt['dd'] = 'dd';
+        $fmt['ul'] = 'ul';
+        $fmt['li'] = 'li';
+    }
+
+
     $options = get_option('field_status_options');
     $o2 = get_option('field_names');
-    echo '<dl class="fields">';
-    foreach( $options as $fkey => $val ) {
-        echo '<dt>'.$o2[$fkey].'</dt>';
-        echo '<dd><ul>';
-        foreach( $val as $skey => $data ) {
-            echo '<li>'.ucfirst($skey).': <span title="'.$data['comment'].'" class="'.strtolower($data['status']).'">'.$data['status'].'</span></li>';
+
+    if ( $atts['field'] == '' ) { # echo all fields
+        $ret .=  otag($fmt['dl'],array("class" => "f-wrap"));
+        foreach( $options as $fkey => $val ) {
+            $ret .= otag($fmt['dt']).$o2[$fkey].ctag($fmt['dt']);
+            $ret .= otag($fmt['dd']);
+            $ret .= echo_status($val, $fmt);
+            $ret .= ctag($fmt['dd']);
         }
-        echo '</ul></dd>';
+        $ret .=  ctag($fmt['dl']);
+
+    } else {                      # echo specified field
+        $ret .= echo_status($options[$atts['field']], $fmt);
     }
-    echo '</dl>';
+    return $ret;
 }
 add_shortcode( 'field_status', 'field_status_shortcode' );
 
