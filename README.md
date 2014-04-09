@@ -20,7 +20,7 @@ title/popup in the open/closed span).
 You can insert current field status content using the shortcode:
 
 ```html
-   [field-status [fmt="(brian|ul)"] [field=("berkich|ada|csp")]]
+   [field_status [fmt="(brian|ul)"] [field=("berkich|ada|csp")]]
 ```
 
 ## Formatting
@@ -28,12 +28,12 @@ You can insert current field status content using the shortcode:
 The `fmt` parameter controls formatting:
 
 * `brian` will format the field status in a manner consistent with
-  current formatting on the site so that: `[field-status fmt="brian"]`
+  current formatting on the site so that: `[field_status fmt="brian"]`
   results in something like the following:
 
 
 ```html
-<div class= "f-wrap">
+<div class="f-wrap">
   <dl>Cardiff Elementary (Berkich)</dl>
   <dt>South: <span title="Closing Dec 21st" class="open">Open</span></dt>
   <dt>North: <span title="Opening January 15th" class="closed">Closed</span></dt>
@@ -47,10 +47,10 @@ The `fmt` parameter controls formatting:
 ```
 
 * `ul` will format the field status using dl/ul nesting, so that:
-  `[field-status fmt="ul"]` results in something like the following:
+  `[field_status fmt="ul"]` results in something like the following:
 
 ```html
-<dl class= "f-wrap">
+<dl class="f-wrap">
   <dt>Cardiff Elementary (Berkich)</dt>
   <dd>
     <ul>
@@ -88,7 +88,7 @@ default formatting).  Fields recognized are:
 The shortcode
 
 ```
-[field-status field="berkich"]
+[field_status field="berkich"]
 ```
 
 would output the following using the default formatting:
@@ -106,4 +106,3 @@ or the following using `brian` formatting:
 <dt>South: <span title="Closing Dec 21st" class="open">Open</span></dt>
 <dt>North: <span title="Opening January 15th" class="closed">Closed</span></dt>
 ```
-
