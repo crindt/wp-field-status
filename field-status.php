@@ -3,7 +3,7 @@
  * Plugin Name: Cardiff Soccer Field Status
  * Plugin URI: http://github.com/crindt/wp-field-status
  * Description: Simple plugin to store Cardiff Soccer Field Status in wp config variables.
- * Version: 0.1
+ * Version: 0.2
  * Author: Craig Rindt
  * Author URI: http://github.com/crindt
  * License: GPL2
@@ -105,6 +105,7 @@ function field_status_admin_init(){
     add_field_settings('berkich',array('South','North'),'Cardiff Elementary (Berkich)');
     add_field_settings('ada',array('East','West'),'Ada Harris Elementary');
     add_field_settings('csp',array('Upper','Lower'),'Cardiff Sports Park (Lake)');
+    add_field_settings('ecp',array('#4','Practice'),'Encinitas Community Park (ECP)');
 #    add_settings_field('field_status_berkich_south', 'Berkich South', 'field_status_berkich_south_bool', 'field_status', 'field_status_main');
 #    add_settings_field('field_status_berkich_north', 'Berkich North', 'field_status_berkich_north_bool', 'field_status', 'field_status_main');
 #    add_settings_field('field_status_ada_east', 'Ada East', 'field_status_ada_east_bool', 'field_status', 'field_status_main');
@@ -134,6 +135,9 @@ function field_status_bool($name,$sub,$options) {
     echo "&nbsp;";
     echo "<input type='radio' id='field_status_{$name}_bool' name='field_status_options[".$name."][".$sub."][status]' value='Closed' ".($options[$name][$sub]['status']=='Closed'?'CHECKED':'').">Closed</input>";
     echo "<input id='field_status_{$name}_comment' name='field_status_options[".$name."][".$sub."][comment]' length=40 value='".$options[$name][$sub]["comment"]."'></input>";
+    echo "&nbsp;";
+    echo "<input type='radio' id='field_status_{$name}_bool' name='field_status_options[".$name."][".$sub."][status]' value='Unavailable' ".($options[$name][$sub]['status']=='Unavailable'?'CHECKED':'').">Unavailable</input>";
+    echo "<input id='field_status_{$name}_comment' name='field_status_options[".$name."][".$sub."][comment]' length=40 value='".$options[$name][$sub]["comment"]."'></input>";
     echo "</div>";
 }
 
@@ -162,6 +166,15 @@ function field_status_csp_upper_bool() {
 function field_status_csp_lower_bool() {
     $options = get_option('field_status_options');
     field_status_bool('csp', 'lower', $options);
+}
+
+function field_status_ecp_no4_bool() {
+    $options = get_option('field_status_options');
+    field_status_bool('ecp', 'no4', $options);
+}
+function field_status_ecp_practice_bool() {
+    $options = get_option('field_status_options');
+    field_status_bool('ecp', 'practice', $options);
 }
 
 
